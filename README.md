@@ -16,3 +16,6 @@ la información representada en ese tipo de gráficos. [Enlace](results/task2/RE
 el resultado. [Enlace](results/task3/README.md)
 
 4. Tarea 4 - **Análisis de memoria y mejora Vectorización**: A la hora de aplicar diferentes técnicas de paralelización es muy importante caracterizar el uso de la memoria y los patrones de acceso. En esta tarea se busca que seas capaz de analizar los movimientos de memoria en el algoritmo para optimizar la vectorización. [Enlace](results/task4/README.md)
+
+# Participantes
+El nombre del repositorio se puso automáticamente pero los participantes somos **Enrique Albalate Prieto** y **Pedro Campos Castellanos**
