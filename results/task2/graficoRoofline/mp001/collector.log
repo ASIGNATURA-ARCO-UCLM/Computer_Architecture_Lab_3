@@ -1,0 +1,30 @@
+Analysis started...
+Collection has been started.
+Result file: /home/enrique/intel/advixe/projects/lab3Tarea1/e000/mp001/mp001.advixe 
+Found target process /home/enrique/Desktop/lab3-bc-enriquealbalateprieto/src/ejecutable.exe (PID = 6610). Analysis started... 
+Loaded module: /home/enrique/Desktop/lab3-bc-enriquealbalateprieto/src/ejecutable.exe. 
+Loaded module: /lib64/ld-linux-x86-64.so.2. 
+Loaded module: [vdso]. 
+Loaded module: /lib/x86_64-linux-gnu/libstdc++.so.6. 
+Loaded module: /lib/x86_64-linux-gnu/libm.so.6. 
+Loaded module: /lib/x86_64-linux-gnu/libgomp.so.1. 
+Warning: Advisor does not support the GNU OpenMP Runtime module and may report false positives. Refer to the product release notes. 
+Loaded module: /lib/x86_64-linux-gnu/libc.so.6. 
+Loaded module: /lib/x86_64-linux-gnu/libgcc_s.so.1. 
+Loaded module: /lib/x86_64-linux-gnu/libdl.so.2. 
+Loaded module: /lib/x86_64-linux-gnu/libpthread.so.0. 
+Unloaded module: /home/enrique/Desktop/lab3-bc-enriquealbalateprieto/src/ejecutable.exe. 
+Unloaded module: /lib64/ld-linux-x86-64.so.2. 
+Unloaded module: [vdso]. 
+Unloaded module: /lib/x86_64-linux-gnu/libstdc++.so.6. 
+Unloaded module: /lib/x86_64-linux-gnu/libm.so.6. 
+Unloaded module: /lib/x86_64-linux-gnu/libgomp.so.1. 
+Unloaded module: /lib/x86_64-linux-gnu/libc.so.6. 
+Unloaded module: /lib/x86_64-linux-gnu/libgcc_s.so.1. 
+Unloaded module: /lib/x86_64-linux-gnu/libdl.so.2. 
+Unloaded module: /lib/x86_64-linux-gnu/libpthread.so.0. 
+Process /home/enrique/Desktop/lab3-bc-enriquealbalateprieto/src/ejecutable.exe (PID = 6610) has terminated. 
+Warning: No SITE annotations were encountered, so no stride/alignment data can be reported. 
+Application exit code: 0 
+Result file: /home/enrique/intel/advixe/projects/lab3Tarea1/e000/mp001/mp001.advixe 
+Analysis completed
