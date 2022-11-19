@@ -34,7 +34,7 @@
             Debido a que en las dos instrucciones que se ejecutan durante una de sus iteraciones, se requiere la lectura de dos enteros, la parte imaginaria y real de un número complejo determinado (b[j][REAL] y b[j][IMAG]). Así, la memoria accedida por las instrucciones del bucle variará en "2*tamaño de un entero" bytes con cada iteración.
 
         * ¿Sobre que variables se está accediendo con un stride de 2? ¿Cómo afecta esto a la caché?
-            Se accederá a la columna 0 y columna 1 de una misma fila determinda de la matriz b (será apuntada por la variable j en sí misma). Como se ha mencionado antes, con cada iteración, la caché necesitará recoger "2*tamaño de un entero" bytes, así que es fácil de suponer que cada vez que se realicen "Tamaño Caché/(2*Tamaño de un entero)" iteraciones, ésta fallará y deberá consultar a instancias superiores del subsistema de memoria.
+            Se accederá a la columna 0 y columna 1 de una misma fila determinda de la matriz b (será apuntada por la variable j en sí misma). Como se ha mencionado antes, con cada iteración, la caché necesitará recoger "2 x tamaño de un entero" bytes, así que es fácil de suponer que cada vez que se realicen "Tamaño Caché/(2 x Tamaño de un entero)" iteraciones, ésta fallará y deberá consultar a instancias superiores del subsistema de memoria.
 
         * ¿Se te ocurre algún modo de modificar el programa, manteniendo los dos bucles y el mismo resultado, para que
         el acceso a la variable sea uniforme? Realiza la modificación y almacena el resultado en esta misma carpeta con el nombre complexmul_unit_stride.cpp.
