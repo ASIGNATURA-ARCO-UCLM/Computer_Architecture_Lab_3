@@ -49,18 +49,20 @@
           printf("Time elapsed to execute program: %.2f seconds\n", t);
       }
       
-      Lo que hemos modificado es que en vez usar matrices para a y b hemos usado un vector para guardar los reales e
-      imaginarios de cada uno. De esta forma en vez de acceder de arriba hacia abajo hace un acceso hacia la derecha.
+      La modificación introducida se basa en usar un vector para guardar las componenetes reales y otro para las
+      imaginarias tanto de a como como de b (anteriormente matrices). De esta forma en vez de acceder de arriba hacia abajo hace un acceso hacia la derecha.
       
       El resultado de hacer esto es que el Total time ha disminuido a 0.40 segundos aproximadamente.
 
 * Una vez vectorizado el programa realiza un análisis y guárdalo con el nombre task3:
     * ¿Cual es el valor del campo Vector Length? ¿Es este el valor esperado? Tanto si la respuesta es afirmativa como negativa justifica cual es el valor que esperabas.
       
-            El campo Vector Length es igual a 8
+            El campo Vector Length es igual a 8. Dado que la ganancia obtenida es de 8,37, resulta lógico ese valor (como el programa vectorizado es 8 veces más rápido que el escalar, la CPU será capaz de realizar 8 operaciones por cada iteración de las escalares).
 
     * ¿Cuál ha sido la ganancia? Explica si es el resultado esperado, si no lo es, explica cuál crees que es la razón (Pista: Intel Advisor puede darte indicios de cuál es el problema).
             
-            Hemos conseguido una ganancia de 8,37 consiguiendo un 100% de la eficiencia
+            Hemos conseguido una ganancia de 8,37 consiguiendo obtener un 100% (104.625%) de eficiencia de vectorización. Consideramos que sí es un resultado esperable debido a que al tratar con un programa bastante simple es posible alcanzar un nivel vectorización máxima de forma sencilla. 
+            
+            Intel Advisor nos confirma que el doble bucle con el que se realiza la multiplicación de números complejos está totalmente vectorizado y que se han obtenido tanto la ganancia como la eficiencia citadas arriba.
 
 

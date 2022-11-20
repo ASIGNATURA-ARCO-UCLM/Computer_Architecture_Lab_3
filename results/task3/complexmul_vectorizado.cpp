@@ -13,7 +13,8 @@ int main() {
     float aImag[SIZE];
     float bReal[SIZE];
     float bImag[SIZE];
-    auto c = new float[SIZE][2];
+    auto cReal = new float[SIZE];
+    auto cImag = new float[SIZE];
     double n = SIZE;
     double seed = 3.141592653589793;
 
@@ -29,8 +30,8 @@ int main() {
 
     for(int i = 0; i < SIZE; i++) {
         for(int j = 0; j < SIZE; j++) {
-            c[i][REAL] += (aReal[i] * bReal[j]) - (aImag[i] * bImag[j]);
-            c[i][IMAG] += (aReal[i] * bReal[j]) + (aReal[i] * bImag[j]);
+            cReal[i] += (aReal[i] * bReal[j]) - (aImag[i] * bImag[j]);
+            cImag[i] += (aReal[i] * bReal[j]) + (aReal[i] * bImag[j]);
         }
     }
 
