@@ -4,6 +4,8 @@
 
 * Compila de nuevo el programa complexmul.cpp **sin vectorizar** y genera un análisis de memoria marcando los bucles del cómputo que realizan la mutliplicación de números complejos, en concreto marca los bucles de las líneas 27 y 28 (si el análisis se demora mucho prueba a reducir el tamaño). Realiza el análisis tanto usando la interfaz gráfica de intel advisor como por línea de comandos. Además indica que comando es el que has usado para realizar el análisis por comando.
 
+advisor --collect=map --mark-up-list=27,28 --project-dir=./tarea4 -- ./ejecutable
+
 **PARA LA REALIZACIÓN DE ESTA TAREA SE HA REDUCIDO EL TAMAÑO DE LAS FILAS DE LAS MATRICES A 500**
 
 * Abre advisor y selecciona la vista "Refinement Reports".
