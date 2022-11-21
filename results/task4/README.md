@@ -1,5 +1,5 @@
 # Tarea 4: Análisis de memoria y mejora vectorización
-##### g++ -g -openmp complexmul.cpp -lm -o ejecutable -I ~/intel/oneapi/advisor/2022.3.0/include -lgomp -ldl
+
 ## Preguntas
 
 * Compila de nuevo el programa complexmul.cpp **sin vectorizar** y genera un análisis de memoria marcando los bucles del cómputo que realizan la mutliplicación de números complejos, en concreto marca los bucles de las líneas 27 y 28 (si el análisis se demora mucho prueba a reducir el tamaño). Realiza el análisis tanto usando la interfaz gráfica de intel advisor como por línea de comandos. Además indica que comando es el que has usado para realizar el análisis por comando.
@@ -39,24 +39,32 @@
     * Busca el bucle más interno (el del índice j en el código original) y comprueba que el stride es de 2.
         * ¿Por qué el stride tiene este valor? (Revisa los conceptos de row-order y column-order así como el orden en el que se reserva la memoria en C)
         
-            Debido a que en las dos instrucciones que se ejecutan durante una de sus iteraciones, se requiere la lectura de dos double, la parte imaginaria y real de un número complejo determinado (b[j][REAL] y b[j][IMAG]). Así, la memoria accedida por las instrucciones del bucle variará en "2 x tamaño de un double" bytes con cada iteración.
+            Debido a que C reserva el espacio en memoria para las diferentes posiciones de la matriz porcolumnas en lugar de por filas, que suele ser lo esperable. Así, a la hora de realizar las operaciones con los números complejos, como se necesita la componente real y la imaginaria, si ambas están dispuestas en la misma fila y diferente columna, la caché primero cargará un conjunto de datos referidos a la columna de la parte real, requiriendo otra lectura de un conjunto de datos que contengan la información de la parte imaginaria (situada en la otra columna). 
 
         * ¿Sobre que variables se está accediendo con un stride de 2? ¿Cómo afecta esto a la caché?
-        
-            Se accederá a la columna 0 y columna 1 de una misma fila determinda de la matriz b (será apuntada por la variable j en sí misma). Como se ha mencionado antes, con cada iteración, la caché necesitará recoger "2 x tamaño de un double" bytes, así que es fácil de suponer que cada vez que se realicen "Tamaño Caché/(2 x Tamaño de un double)" iteraciones, ésta fallará y deberá consultar a instancias superiores del subsistema de memoria.
+
+            Lo que ocurre en este programa es que al realizar una lectura por parte de la caché, ésta obtendrá el contenido de ciertas posiciones de la primera columna de la matriz en cuestión. Esto supondrá la carga de las partes reales de algunos números complejos, pero eso es en realidad contraproducente ya que no se tendrán datos de ninguna componente imaginaria. Así, cuando estas últimas se necesiten, irremediablemente ocurrirá un fallo de caché.
+
+            Si esto se solucionase llegando a un stride unitario, con una simple lectura de caché se obtendrían datos de los dos componentes de una cantidad determinada de números complejos (se extraerían los valores de una columna, que sólo contará con dos elementos y representa a un complejo, y la memoria pasará a leer la siguientes columnas).
 
         * ¿Se te ocurre algún modo de modificar el programa, manteniendo los dos bucles y el mismo resultado, para que
         el acceso a la variable sea uniforme? Realiza la modificación y almacena el resultado en esta misma carpeta con el nombre complexmul_unit_stride.cpp.
         
-               Como C utiliza row-order pues hemos adaptado el código para utilizarlo
+               Esto se consigue modificando la organización de los datos referidos a la parte real e imaginaria de los números complejos a usar en las matrices de las que inicialmente se disponía: en lugar de que éstas posean dos columnas y N filas (tantas como números a emplear), pasen a tener N columnas y únicamente 2 filas. De esta manera, cuando se necesite acceder a ambos componentes de un número en una instrucción, la caché no fallará y se evitarán lecturas extra.
 
 
         
 * Genera un snapshot para el análisis completo (hasta los patrones de acceso a memoria) tanto para la versión con un stride de 2 como para la versión con stride unitario (ambos vectorizando el código) y llámalos respectivamente "task4a" y "task4b", añádelos a esta misma carpeta. 
     * En "task4b" ¿Cuáles son los valores de la longitud del vector y la ganancia estimada? ¿Son los resultados que se esperaban? Justifica la respuesta.
     
-            La longitud del vector es igual a 8 y la ganancia es 7,66
+            La longitud del vector es igual a 8 y la ganancia es 7,66. Quizá sería esperable una ganacia superior a 8 por el valor de vector length obtenido (si puedes hacer 8 operaciones con elementos de vectores a la vez, tu programa será 8 veces más rápido que uno escalar), pero está dentro de lo razonable.
+
     * Comparando estas dos soluciones ¿Cuánto ha aumentado la ganancia?
+            En el caso de la "task4a", la ganancia es de 7,07 (y el vector length 16), por lo que se puede asegurar que con la simple mejora de los strides del programa, se hace posible que éste se ejecute de manera mucho más rápida. En concreto y en este caso, la versión de stride unitario es 1.0834 veces más veloz, resultando asíi sus tiempos consumidos:
+            * task4b --> 0.37
+            * task4a --> 0.61
 
 * Compara los resultados del análisis task2 y task4b:
     * ¿Cuál ha sido la ganancia real del algoritmo vectorizado? ¿Ha sido menor o mayor a la estimación?
+            El tiempo requerido por el programa de "task2" fue de 17,75 segundos aproximadamente. Como en la "task4b" es de 0.37, a pesar de tenerse como speedup esperado 7,66, éste resulta 47,97 a partir de la división del primer valor entre el segundo. 
+            El programa que hemos conseguido supera la estimación inicial.
