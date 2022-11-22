@@ -4,7 +4,57 @@
 
 * Compila de nuevo el programa complexmul.cpp **sin vectorizar** y genera un análisis de memoria marcando los bucles del cómputo que realizan la mutliplicación de números complejos, en concreto marca los bucles de las líneas 27 y 28 (si el análisis se demora mucho prueba a reducir el tamaño). Realiza el análisis tanto usando la interfaz gráfica de intel advisor como por línea de comandos. Además indica que comando es el que has usado para realizar el análisis por comando.
 
-advisor --collect=map --mark-up-list=27,28 --project-dir=./tarea4 -- ./ejecutable
+   Al hacer el análisis por terminal lo que nos aparecía era que en el programa no había anotaciones y no podía hacer el análisis, entonces añadimos anotaciones al programa:
+   
+      #include <iostream>
+      #include <cstdlib>
+      #include <math.h>
+      #include <omp.h>
+      #include "advisor-annotate.h"
+
+      #define SIZE 500
+      #define REAL 0
+      #define IMAG 1
+
+      int main() {
+          auto a = new float[SIZE][2];
+          auto b = new float[SIZE][2];
+          auto c = new float[SIZE][2];
+          double n = SIZE;
+          double seed = 3.141592653589793;
+
+          // Generate pseudo random numbers
+
+          for(int i = 0; i < SIZE; i++) {
+              a[i][REAL] = sin((seed*i * (seed*i + 1) * (2 * seed*i + 1)) / 6);
+              a[i][IMAG] = cos((seed*i * (seed*i + 1) * (2 * seed*i + 1)) / 6);
+              b[i][REAL] = sin((6*seed*i * ( seed*i - 1) + 1));
+              b[i][IMAG] = cos((6*seed*i * ( seed*i - 1) + 1));
+          }
+
+          double t = omp_get_wtime();
+
+          ANNOTATE_SITE_BEGIN(bucleExterior);
+          for(int i = 0; i < SIZE; i++) {
+              ANNOTATE_ITERATION_TASK(cuerpoBucleExterior);
+              ANNOTATE_SITE_BEGIN(bucleInterior);
+              for(int j = 0; j < SIZE; j++) {
+                  ANNOTATE_ITERATION_TASK(cuerpoBucleInterior);
+                  c[i][REAL] += (a[i][REAL] * b[j][REAL]) - (a[i][IMAG] * b[j][IMAG]);
+                  c[i][IMAG] += (a[i][IMAG] * b[j][REAL]) + (a[i][REAL] * b[j][IMAG]);
+              }
+              ANNOTATE_SITE_END();
+          }
+          ANNOTATE_SITE_END();
+
+          t = omp_get_wtime() - t;
+
+          printf("Time elapsed to execute program: %.2f seconds\n", t);
+      }
+      
+Para hacer el análisis tuvimos que transferir el archivo advisor-annotate.h ubicado en la ruta ~/intel/oneapi/advisor/2022.3.0/sdk/include al devcloud, así como el programa anterior. Para compilar dicho programa utilizamos el comando g++ -g -openmp complexmul.cpp -lm -o ejecutable -lgomp -ldl y ahora si nos dejaba hacer el análisis, para hacerlo usamos el comando: **advisor --collect=map --mark-up-list=27,28 --project-dir=./tarea4 -- ./ejecutable**
+
+
 
 **PARA LA REALIZACIÓN DE ESTA TAREA SE HA REDUCIDO EL TAMAÑO DE LAS FILAS DE LAS MATRICES A 500**
 
