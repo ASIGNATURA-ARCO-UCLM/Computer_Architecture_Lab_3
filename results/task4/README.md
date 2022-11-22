@@ -52,7 +52,7 @@
           printf("Time elapsed to execute program: %.2f seconds\n", t);
       }
       
-Para hacer el análisis tuvimos que transferir el archivo advisor-annotate.h ubicado en la ruta ~/intel/oneapi/advisor/2022.3.0/sdk/include al devcloud, así como el programa anterior. Para compilar dicho programa utilizamos el comando g++ -g -openmp complexmul.cpp -lm -o ejecutable -lgomp -ldl y ahora si nos dejaba hacer el análisis, para hacerlo usamos el comando: **advisor --collect=map --mark-up-list=27,28 --project-dir=./tarea4 -- ./ejecutable**
+Para hacer el análisis tuvimos que transferir el archivo advisor-annotate.h ubicado en la ruta ~/intel/oneapi/advisor/2022.3.0/sdk/include al devcloud, así como el programa anterior. Para compilar dicho programa utilizamos el comando g++ -g -openmp complexmul.cpp -lm -o ejecutable -lgomp -ldl y ahora si nos dejaba hacer el análisis, para hacerlo usamos el comando: **advisor --collect=map --mark-up-list=30,33 --project-dir=./tarea4 -- ./ejecutable**
 
 
 
